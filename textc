@@ -1,0 +1,676 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct{
+    char marque[40];
+    int kilometrage;
+    char plaque[40];
+    char disponibilite[40];
+} hvoiture;
+typedef struct noeud noeud;
+struct noeud{
+    hvoiture d;
+    struct noeud *next;
+    struct noeud *prev;
+};
+typedef struct listev listev;
+struct listev{
+    noeud *first;
+    noeud *last;
+};
+void ajoutv(listev *l) {
+    hvoiture x;
+    int f = 0;
+    noeud *s;
+    char k;
+    noeud *ptr = (noeud *)malloc(sizeof(noeud));
+    
+    if (ptr) {
+        printf("Saisir marque: ");
+        scanf("%s", x.marque);
+        
+        printf("Saisir matricule: ");
+        scanf("%s", x.plaque);
+        
+        printf("Saisir disponibilite: ");
+        scanf("%s", x.disponibilite);
+        
+        printf("Saisir kilometrage: ");
+        scanf("%d", &x.kilometrage);
+        
+        strcpy(ptr->d.marque, x.marque);
+        strcpy(ptr->d.plaque, x.plaque);
+        strcpy(ptr->d.disponibilite, x.disponibilite);
+        ptr->d.kilometrage = x.kilometrage;
+        ptr->next = NULL;
+        ptr->prev = NULL;
+        
+        s = l->first;
+        while (s != NULL) {
+            if (strcmp(s->d.plaque, ptr->d.plaque) == 0) {
+                f = 1;
+                break;
+            } else {
+                s = s->next;
+            }
+        }
+        
+        if (f == 0) {
+            if (l->first != NULL) {
+                l->last->next = ptr;
+                ptr->prev = l->last;
+                l->last = ptr;
+            } else {
+                l->last = ptr;
+                l->first = ptr;
+            }
+        } else {
+            printf("Erreur: plaque dupliquée\n");
+            free(ptr);
+        }
+    }
+}
+
+void affichageliste(listev *l){
+    noeud *s;
+        s=l->first;
+        while (s != NULL) {
+            printf("\n %s",s->d.marque);
+            printf("\t\t %s",s->d.plaque);
+            printf("\t\t %d",s->d.kilometrage);
+            printf("\t\t %s",s->d.disponibilite);
+            printf("\n------------------------------------------------------");
+            s=s->next;
+        }
+    
+}
+void modifier(listev *l) {
+    noeud *s;
+    hvoiture x;
+    char k[50];  // Changed to character array to store the license plate
+
+    if (l->first != NULL) {
+        s = l->first;
+        printf("Saisir le matricule (plaque) de la voiture que vous souhaitez modifier: ");
+        scanf("%s", k);
+
+        while (s != NULL) {
+            if (strcmp(s->d.plaque, k) == 0) {  // Changed the comparison to strcmp
+                printf("Saisir marque: ");
+                scanf("%s", x.marque);
+
+                printf("Saisir disponibilite: ");
+                scanf("%s", x.disponibilite);
+
+                printf("Saisir kilometrage: ");
+                scanf("%d", &x.kilometrage);
+
+                strcpy(s->d.marque, x.marque);
+                strcpy(s->d.disponibilite, x.disponibilite);
+                s->d.kilometrage = x.kilometrage;
+                break;
+            } else {
+                s = s->next;
+            }
+        }
+
+        if (s == NULL) {
+            printf("Voiture non trouvée.\n");
+        }
+    } else {
+        printf("Liste vide.\n");
+    }
+}
+
+void supprimerv(listev *l) {
+    char k[50];  // Changed to character array to store the license plate
+    noeud *s, *ptr1, *ptr2, *ptr3;
+
+    s = l->first;
+    printf("Saisir le matricule (plaque) de la voiture que vous souhaitez supprimer : ");
+    scanf("%s", k);
+
+    while (s != NULL) {
+        if (strcmp(s->d.plaque, k) == 0) {  // Changed the comparison to strcmp
+            ptr1 = s->prev;
+            ptr2 = s->next;
+
+            if (ptr1 != NULL) {
+                ptr1->next = ptr2;
+            }
+            if (ptr2 != NULL) {
+                ptr2->prev = ptr1;
+            }
+
+            ptr3 = s;
+            if (ptr3 == l->last) {
+                l->last = ptr1;
+            }
+            if (ptr3 == l->first) {
+                l->first = ptr2;
+            }
+
+            free(ptr3);
+            break;
+        }
+
+        s = s->next;
+    }
+}
+
+
+/*void chercherv(listev *l,listec *y){
+    char k;
+    char j;
+    noeud *s,*ptr1,*ptr2,*ptr3;
+    if(l->first != NULL){
+        s=l->first;
+        printf("saisir le matricule(plaque) de la voiture que vous souhaitez chercher");
+        scanf("%s",&k);
+        if(*s->d.plaque == k){
+            printf("\nmarque: %s",s->d.marque);
+            printf("\nmatricule: %s",s->d.plaque);
+            printf("\nkilometrage: %d",s->d.kilometrage);
+            printf("\ndisponibilite:%s",s->d.disponibilite);
+            }
+            else{s=s->next;}
+    }
+
+}*/
+
+typedef struct{
+    char nom[40];
+    char cin[8];
+    char plaque1[40];
+    int tel;
+    int avance;
+    int prix;
+} clients;
+typedef struct{
+    clients f;
+    struct noeud1 *next;
+    struct noeud1 *prev;
+} noeud1;
+typedef struct{
+    noeud1 *first;
+    noeud1 *last;
+} listec;
+
+void ajoutclient(listec *y, listev *l) {
+    clients j;
+    noeud *s;
+    noeud1 *u;
+    int f = 0;
+    noeud1 *ptr6 = (noeud1 *)malloc(sizeof(noeud1));
+    
+    if (ptr6) {
+        printf("\nSaisir nom client: ");
+        scanf("%s", j.nom);
+        printf("\nSaisir cin client: ");
+        scanf("%s", j.cin);
+        printf("\nSaisir matricule voiture: ");
+        scanf("%s", j.plaque1);
+        printf("\nSaisir tel: ");
+        scanf("%d", &j.tel);
+        printf("\nSaisir avance: ");
+        scanf("%d", &j.avance);
+        printf("\nSaisir prix: ");
+        scanf("%d", &j.prix);
+        
+        strcpy(ptr6->f.nom, j.nom);
+        strcpy(ptr6->f.cin, j.cin);
+        strcpy(ptr6->f.plaque1, j.plaque1);
+        ptr6->f.tel = j.tel;
+        ptr6->f.avance = j.avance;
+        ptr6->f.prix = j.prix;
+        ptr6->next = NULL;
+        ptr6->prev = NULL;
+        s = l->first;
+        while (s != NULL) {
+            if (strcmp(s->d.plaque, ptr6->f.plaque1) == 0) {
+                f = 1;
+                break;
+            } else {
+                s = s->next;
+            }
+        }
+        
+        if (f == 1) {
+            if (strcmp(s->d.disponibilite, "disponible") == 0) {
+                if (y->first != NULL) {
+                    y->last->next = ptr6;
+                    ptr6->prev = y->last;
+                    y->last = ptr6;
+                } else {
+                    y->last = ptr6;
+                    y->first = ptr6;
+                }
+                strcpy(s->d.disponibilite, "indisponible");
+            } else {
+                printf("Plaque indisponible.\n");
+                free(ptr6);
+            }
+        } else {
+            printf("Erreur: plaque introuvable.\n");
+            free(ptr6);
+        }
+    }
+}
+
+void affichageliste_clients(listev *y){
+    noeud1 *s;
+    int g=1;
+    if(y->first != NULL){
+        s=y->first;
+        while (s != NULL) {printf("\n\nclient%d:",g);
+            printf("\nnom: %s",s->f.nom);
+            printf("\ncin: %s",s->f.cin);
+            printf("\nmatricule: %s",s->f.plaque1);
+            printf("\ntel: %d",s->f.tel);
+            printf("\navance: %d",s->f.avance);
+            printf("\nprix: %d",s->f.prix);
+            s=s->next;
+            g=g+1;
+        }
+    }
+    else{printf("inventaire vide");}
+}
+
+void modifier_clients(listev *y){
+    noeud1 *s;
+    clients r;
+    int c;
+    char k;
+    if(y->first != NULL){
+        s=y->first;
+        printf("saisir la cin du client que vous souhaitez modifier");
+        scanf("%s",&k);
+        while (s != NULL) {
+            if(*s->f.cin == k){
+                    printf("saisir nom:");
+                    scanf("%s",r.nom);
+                    printf("saisir cin:");
+                    scanf("%s",r.cin);
+                    printf("saisir matricule:");
+                    scanf("%s",r.plaque1);
+                    printf("saisir tel:");
+                    scanf("%d",&r.tel);
+                printf("saisir avance:");
+                scanf("%d",&r.avance);
+                printf("saisir prix:");
+                scanf("%d",&r.prix);
+                    strcpy(s->f.nom,r.nom);
+                    strcpy(s->f.cin,r.cin);
+                    strcpy(s->f.plaque1,r.plaque1);
+                s->f.tel=r.tel;
+                s->f.avance=r.avance;
+                s->f.prix=r.prix;
+                }
+                else{s=s->next;}
+            }
+        }
+    else{printf("liste vide;");}
+    }
+
+void chercherv(listev *l, listec *y) {
+    char k[50];  // Changed to character array to store the license plate
+    noeud *s;
+    noeud1 *t;
+
+    if (l->first != NULL) {
+        s = l->first;
+        t = y->first;
+
+        printf("Saisir le matricule (plaque) de la voiture que vous souhaitez chercher: ");
+        scanf("%s", k);
+
+        while (s != NULL) {
+            if (strcmp(s->d.plaque, k) == 0) {
+                printf("\nMarque: %s", s->d.marque);
+                printf("\nMatricule: %s", s->d.plaque);
+                printf("\nKilometrage: %d", s->d.kilometrage);
+                printf("\nDisponibilite: %s", s->d.disponibilite);
+                break;
+            } else {
+                s = s->next;
+            }
+        }
+
+        while (t != NULL) {
+            if (strcmp(t->f.plaque1, k) == 0) {
+                printf("\nNom: %s", t->f.nom);
+                printf("\nCIN: %s", t->f.cin);
+                printf("\nPlaque voiture choisi: %s", t->f.plaque1);
+                printf("\nTel: %d", t->f.tel);
+                printf("\nPrix: %d", t->f.prix);
+                printf("\nAvance: %d", t->f.avance);
+                break;
+            } else {
+                t = t->next;
+            }
+        }
+    }
+}
+
+
+void supprimer_client(listev *y) {
+    char k[100]; // Modifier la taille du tableau selon les besoins
+    noeud1 *s, *ptr1, *ptr2, *ptr3;
+
+    if (y->first != NULL) {
+        s = y->first;
+        printf("\nSaisir le numéro de carte d'identité du client que vous souhaitez supprimer : ");
+        scanf("%s", k);
+
+        while (s != NULL) {
+            if (strcmp(s->f.cin, k) == 0) {
+                ptr1 = s->prev;
+                ptr2 = s->next;
+
+                if (ptr1 != NULL) {
+                    ptr1->next = ptr2;
+                }
+                if (ptr2 != NULL) {
+                    ptr2->prev = ptr1;
+                }
+                if (s == y->first) {
+                    y->first = ptr2;
+                }
+                if (s == y->last) {
+                    y->last = ptr1;
+                }
+                
+                ptr3 = s;
+                s = s->next; // Avancer le pointeur s avant de libérer ptr3
+                free(ptr3);
+            } else {
+                s = s->next;
+            }
+        }
+    }
+}
+
+
+void rendreloc(listec *y, listev *u) {
+    char k[100];
+    noeud1 *ptr1, *ptr2, *ptr3;
+    noeud *s;
+
+    if (u->first != NULL) {
+        s = u->first;
+        printf("Saisir le matricule (plaque) de la voiture que vous souhaitez rendre : ");
+        scanf("%s", k);
+
+        while (s != NULL) {
+            if (strcmp(s->d.plaque, k) == 0) {
+                strcpy(s->d.disponibilite, "disponible");
+                ptr1 = s->prev;
+                ptr2 = s->next;
+                if (ptr1 != NULL) {
+                    ptr1->next = ptr2;
+                }
+                if (ptr2 != NULL) {
+                    ptr2->prev = ptr1;
+                }
+                if (s == u->first) {
+                    u->first = ptr2;
+                }
+                if (s == u->last) {
+                    u->last = ptr1;
+                }
+                ptr3 = s;
+                free(ptr3);
+                break;
+            }
+            s = s->next;
+        }
+    }
+}
+
+int parcourirv(listev *u, char i) {
+    noeud *s;
+    int n = 0;
+
+    if (u->first != NULL) {
+        s = u->first;
+        while (s != NULL) {
+            if (s->d.plaque == i && strcmp(s->d.disponibilite, "disponible") == 0) {
+                n = 1;
+                break;
+            }
+            s = s->next;
+        }
+    }
+
+    return n;
+}
+void ajoutc1(listec *y){
+    clients j;
+    noeud1 *s;
+    noeud1 *u;
+    int n=0;
+    noeud1* ptr7 = (noeud1*)malloc(sizeof(noeud1));
+            printf("\nsaisir nom client:");
+            scanf("%s",j.nom);
+            printf("\nsaisir cin client:");
+            scanf("%s",j.cin);
+            printf("\nsaisir matricule voiture:");
+            scanf("%s",j.plaque1);
+            printf("\nsaisir tel:");
+            scanf("%d",&j.tel);
+            printf("\nsaisir avance:");
+            scanf("%d",&j.avance);
+            printf("\nsaisir prix:");
+            scanf("%d",&j.prix);
+            strcpy(ptr7->f.nom,j.nom);
+            strcpy(ptr7->f.cin,j.cin);
+            strcpy(ptr7->f.plaque1,j.plaque1);
+            ptr7->f.tel=j.tel;
+            ptr7->f.avance=j.avance;
+            ptr7->f.prix=j.prix;
+            ptr7->next=NULL;
+            ptr7->prev=NULL;
+            s=y->first;
+        if(y->first != NULL){
+            y->last->next=ptr7;
+            ptr7->prev=y->last;
+            y->last=ptr7;
+        }
+        if(y->first == NULL){y->last=ptr7;
+            y->first=ptr7;
+        }
+    }
+
+
+int main() {
+    int choix,choix1,choix2 = 0,choix3,choix4,choix5,code;
+    char marque1[40];
+    int kilometrage1,i=0;
+    char plaque1[40];
+    char disponibilite1[40],no=0;
+    int a1,a2;
+    noeud1 kl;
+    char kl1;
+    listev *t=(listev*)malloc(sizeof(listev));
+    listec *p=(listec*)malloc(sizeof(listec));
+    //ajoutv(t);
+    
+    do{
+        printf("\t\t\t\t AAA CAR RENTAL\n");
+        printf("===============================================\n");
+        printf("\t\t\t\t\tBIENVENU\n\n");
+        printf("veuillez vous identifier:\n");
+        printf("\n");
+        printf("\t\t\t\t\t[1]:client\n\n");
+        printf("\t\t\t\t\t[2]:admin\n\n");
+        printf("\t\t\t\t\t[3]:quitter\n\n");
+        printf("===============================================\n");
+        printf("entrez votre choix:");
+        scanf("%d",&choix);
+        
+        switch (choix) {
+                do{
+                case 1: //menu client
+                    do{   printf("\n\t\t\t*** BIENVENU CHER CLIENT ***\n");
+                        printf("\n");
+                        printf("comment povons nous vous aider");
+                        printf("\n\t\t\t\t\n[1]:consulter le parc auto mobile\n\n");
+                        printf("\n\t\t\t\t\n[2]:calcul de devis\n\n");
+                        printf("\n\t\t\t\t\n[3]:quitter\n\n");
+                        printf("saisissez votre choix:");
+                        scanf("%d",&choix1);
+                        switch (choix1) {
+                            case 1:
+                                printf("\n------------------------------------------------------");
+                                printf("\n|                 liste de voitures                  |");
+                                printf("\n------------------------------------------------------");
+                                printf("\n|marque | matricule | kilometrage  | disponibilite   |");
+                                printf("\n------------------------------------------------------");
+                                affichageliste(t);
+                                
+                                break;
+                            case 2:
+                                printf("\n------------------------------------------------------");
+                                printf("\n|types  |1suv  |2berlines  |3compactes  |4utilitaires|");
+                                printf("\n------------------------------------------------------");
+                                printf("\n|tarifs |0.7/km|   1dh/km  | 0.5/km     | 0.5/km     |");
+                                printf("\n------------------------------------------------------");
+                                printf("\nsaisir la gamme:");
+                                scanf("%d",&a1);
+                                printf("\nsaisir nbr de kilometres:");
+                                scanf("%d",&a2);
+                                if(a1==1){printf("\ntarif:%f",0.7*a2);}
+                                else if(a1==2){printf("\ntarif:%d",1*a2);}
+                                else if(a1==3){printf("\ntarif:%f",0.5*a2);}
+                                else if(a1==4){printf("\ntarif:%f",0.5*a2);}
+                                else {printf("gamme indisponible veuillez choisir entre 1,2,3 ou 4\n");}
+                                
+                                break;
+                            case 3:
+                                
+                                break;
+                        }
+                    }while(choix1!=3);
+                case 2: //menu admin
+                    do{
+                        do{
+                            printf("\nsasissez votre code secret(code:1234):");
+                            scanf("%d",&code);
+                            if(code != 1234){printf("\ncode errone");}
+                        }while(code != 1234);
+                        printf("\t\t\t*** identification reussie ***");//menu de ladmin
+                        printf("\n\t\t\t\t   BONJOUR MR ADAM\n");
+                        printf("\t\t\t\t\t[1]:gestion de location\n\n");
+                        printf("\t\t\t\t\t[2]:gestion de voitures\n\n");
+                        printf("\t\t\t\t\t[3]:retour\n\n");
+                        printf("\nsaisissez votre choix:");
+                        scanf("%d",&choix2);
+                        switch(choix2){
+                            case 1://gestion de location clients
+                                do{
+                                    printf("\n-------------------------");
+                                    printf("\nmenu gestion de location|");
+                                    printf("\n-------------------------");
+                                    printf("\n1.ajout de clients      |");
+                                    printf("\n2.modification          |");
+                                    printf("\n3.suppression           |");
+                                    printf("\n4.rendre location       |");
+                                    printf("\n5.affichage             |");
+                                    printf("\n6.menu pricipal         |");
+                                    printf("\n-------------------------");
+                                    printf("\nsaisissez votre choix:");
+                                    scanf("%d",&choix5);
+                                    switch(choix5){
+                                        case 1:
+                                           /* while(no != 'disponible'){
+                                                no=ajoutclient(p,t);
+                                            };*/
+                                            
+                                            ajoutclient(p, t);
+                                            //ajoutc1(p);
+                                        break;
+                                        case 2:
+                                            modifier_clients(p);
+                                            break;
+                                        case 3:
+                                            supprimer_client(p);
+                                            break;
+                                        case 4:
+                                            rendreloc(t, p);
+                                            break;
+                                        case 5:
+                                            affichageliste_clients(p);
+                                            break;
+                                        case 6:
+                                            break;
+                                    }
+                                }while(choix5 !=6);
+                            break;
+                                
+                            case 2://gestion voiture
+                                do{
+                                    printf("\n-------------------------");
+                                    printf("\nmenu gestion de voitures|");
+                                    printf("\n-------------------------");
+                                    printf("\n1.ajout de voiture      |");
+                                    printf("\n2.modification          |");
+                                    printf("\n3.suppression           |");
+                                    printf("\n4.recherche             |");
+                                    printf("\n5.liste                 |");
+                                    printf("\n6.menu pricipal         |");
+                                    printf("\n-------------------------");
+                                    printf("\nsaisissez votre choix:");
+                                    scanf("%d",&choix3);
+                                    switch(choix3){
+                                        case 1:
+                                            ajoutv(t);
+                                            break;
+                                        case 2:
+                                            modifier(t);
+                                            break;
+                                        case 3:
+                                            supprimerv(t);
+                                            break;
+                                        case 4:
+                                            chercherv(t,p);
+                                            break;
+                                        case 5:
+                                            printf("\n------------------------------------------------------");
+                                            printf("\n|marque | matricule | kilometrage  | disponibilite   |");
+                                            printf("\n------------------------------------------------------");
+                                            affichageliste(t);
+                                            break;
+                                        case 6:
+                                            break;
+                                    }
+                                }while(choix3 !=6);
+                                break;
+                            case 3:
+                                
+                                break;
+                                
+                                
+                        }
+                    }while(choix2!=3);
+                    
+                    
+                    break;
+                    
+                case 3://fermer programme
+                    break;
+                }while(choix!=3);
+                
+                
+                
+                
+                
+                
+                
+                
+                
+        }
+    }while(choix!=3);
+            return 0;
+
+        }
